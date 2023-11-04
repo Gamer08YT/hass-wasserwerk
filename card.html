@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="hass-wasserwerk-card.css">
+</head>
+<body>
+<ha-card header="%header%">
+    <div class="wasserwerk-container">
+        <!-- START: MAP -->
+        <img src="images/map.png" style="position: absolute;">
+        <!-- END: MAP -->
+
+        <!-- START: WATER PUMP STATUS -->
+
+        <!-- START: PUMP 1 -->
+        <img src="images/flash-off.svg" id="pump-1" style="left: 8.75rem" class="pump-icon">
+        <div id="pump-card-1" style="left: 3.5rem" class="pump-card">
+            <h3>Pump 1:</h3>
+            <span>300W</span>
+        </div>
+        <!-- STOP: PUMP 1 -->
+
+        <!-- START: PUMP 2 -->
+        <img src="images/flash-off.svg" id="pump-2" style="left: 28.8rem" class="pump-icon">
+        <div id="pump-card-2" style="left: 24.5rem" class="pump-card">
+            <h3>Pump 2:</h3>
+            <span>300W</span>
+        </div>
+        <!-- STOP: PUMP 2 -->
+
+        <!-- START: PUMP 3 -->
+        <img src="images/flash-off.svg" id="pump-3" style="left: 72.8rem; bottom: 4.75rem" class="pump-icon">
+        <div id="pump-card-3" style="left: 68.5rem" class="pump-card">
+            <h3>Pump 3:</h3>
+            <span>300W</span>
+        </div>
+        <!-- STOP: PUMP 3 -->
+
+        <!-- END: WATER PUMP STATUS -->
+
+        <!-- START: WATER DROPLETS -->
+        <img src="images/water-drop.svg" class="drop" id="droplet-1" style="left: 77.4rem; bottom: 9.60rem">
+        <img src="images/water-drop.svg" class="drop" id="droplet-2" style="left: 77.4rem; bottom: 8rem">
+        <img src="images/water-drop.svg" class="drop" id="droplet-3" style="left: 77.4rem; bottom: 6.40rem">
+        <!-- END: WATER DROPLETS -->
+    </div>
+</ha-card>
+
+</body>
+</html>

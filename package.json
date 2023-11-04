@@ -1,0 +1,16 @@
+{
+  "name": "hass-wasserwerk",
+  "version": "1.0.0",
+  "description": "This card shows the current fluid level in a tank or cistern, as well as the percentage of capacity and the volume of fluid.",
+  "author": {
+    "name": "Jan Heil",
+    "email": "jan.heil@byte-store.de",
+    "url": "https://www.byte-store.de"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "custom-card-helpers": "^1.9.0"
+  }
+}
