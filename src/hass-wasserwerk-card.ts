@@ -2,10 +2,15 @@ import {HomeAssistant} from "custom-card-helpers";
 import {customElement} from 'lit/decorators.js';
 
 // @ts-ignore
-import styles from "./hass-wasserwerk-card.scss";
+import styles from "./hass-wasserwerk-card.css";
 
 // @ts-ignore
 import templateIO from "../card.html";
+
+// @ts-ignore
+import flashOn from "../images/flash-on.svg";
+// @ts-ignore
+import flashOff from "../images/flash-off.svg";
 
 // @ts-ignore
 @customElement("hass-wasserwerk-card")
@@ -15,6 +20,11 @@ class HassWasserwerkCard extends HTMLElement {
 
     // Store Config Instance.
     protected configIO;
+
+    // Store State of Dropping Animation.
+    protected droppingIO = false;
+
+    private timerIO = null;
 
     /**
      * Callback for Value Change / Initialisation in Hass.
@@ -30,23 +40,34 @@ class HassWasserwerkCard extends HTMLElement {
             this.innerHTML += "<style type='text/css'>" + styles + "</style>";
 
             // Import HTML Template from Webpack.
-            this.innerHTML += templateIO;
+            this.innerHTML += String(templateIO).replace("%header%", (this.configIO.title == undefined ? "Wasserwerk" : this.configIO.title));
+
+            this.setupPump(1, (this.configIO.pump[0].name == undefined ? "Pump 1" : this.configIO.pump[0].name));
+            this.setupPump(2, (this.configIO.pump[1].name == undefined ? "Pump 2" : this.configIO.pump[1].name));
+            this.setupPump(3, (this.configIO.pump[2].name == undefined ? "Pump 3" : this.configIO.pump[2].name));
+
+            // Start Animation Interval.
+            this.startAnimation();
         }
 
         // Parse Entity State.
         const arrayIO = this.configIO.pump;
 
-        console.log("=====");
-        console.log(arrayIO);
-        console.log("=====");
-
         // Loop trough Entity Array.
         if (arrayIO instanceof Array) {
-            for (const entityIO in arrayIO) {
-                const stateIO = this.hassIO.states[entityIO];
+            for (const rowIO in arrayIO) {
+                const entityIO = arrayIO[rowIO];
+
+                // @ts-ignore
+                const stateIO = this.hassIO.states[entityIO.entity];
                 const valueIO = stateIO ? stateIO.state : "unavailable";
 
-                console.log(valueIO);
+                // Set Value of Pump.
+                this.setPump(parseInt(rowIO, 0) + 1, valueIO);
+
+                if (rowIO == "2") {
+                    this.handleFlow(valueIO);
+                }
             }
         }
     }
@@ -84,6 +105,107 @@ class HassWasserwerkCard extends HTMLElement {
 
     getCardSize() {
         return 3;
+    }
+
+    private setPump(rowIO: number, dataIO: string) {
+        const elementIO = this.querySelector("#pump-card-" + rowIO);
+
+        if (elementIO != undefined && elementIO != null) {
+            const textIO = elementIO.querySelector(".card-text");
+            const valueIO = textIO.querySelector("span");
+
+            if (valueIO != undefined && valueIO != null)
+                valueIO.innerText = dataIO + "W";
+
+            // Get Image Element from Card.
+            const imageIO = elementIO.querySelector("img");
+
+            if (imageIO != undefined && imageIO != null) {
+                // Check if Watt Usage is bigger than 10W.
+                this.setImageState(Number(dataIO) > 10, imageIO);
+            }
+        }
+    }
+
+    private setupPump(rowIO: number, dataIO: string) {
+        const elementIO = this.querySelector("#pump-card-" + rowIO);
+
+        if (elementIO != undefined && elementIO != null) {
+            const textIO = elementIO.querySelector(".card-text");
+            const valueIO = textIO.querySelector("h3");
+
+            if (valueIO != undefined && valueIO != null)
+                valueIO.innerText = dataIO;
+        }
+    }
+
+    private startAnimation() {
+        let stateIO = 0;
+
+        if (this.timerIO == null) {
+            console.log("Starting Animation Interval.");
+
+            this.timerIO = setInterval(() => {
+                if (this.droppingIO) {
+                    if (stateIO >= 3) {
+                        stateIO = 0;
+
+                        // Disable last Droplet.
+                        this.setDropplet(3, false);
+                    } else {
+                        // Disable last Droplet.
+                        this.setDropplet(stateIO, false);
+
+                        // Increment Droplet.
+                        stateIO++;
+
+                        // Enable next Droplet.
+                        this.setDropplet(stateIO, true);
+                    }
+                }
+            }, 1000);
+        }
+    }
+
+    private handleFlow(valueIO: string) {
+        if (valueIO != undefined && valueIO != null) {
+            const integerIO = Number(valueIO);
+
+            // If Wattage Usage is bigger than 10Watts.
+            if (integerIO > 10) {
+                this.droppingIO = true;
+            } else {
+                this.droppingIO = false;
+
+                // Disable all current Droplets.
+                this.setDropplet(1, false);
+                this.setDropplet(2, false);
+                this.setDropplet(3, false);
+            }
+        }
+    }
+
+    private setDropplet(idIO: number, stateIO: boolean) {
+        const dropletIO = this.querySelector("#droplet-" + idIO);
+
+        if (dropletIO != undefined && dropletIO != null) { // @ts-ignore
+            dropletIO.style.visibility = (stateIO ? "visible" : "hidden");
+        }
+    }
+
+    private setImageState(stateIO: boolean, imageIO: HTMLImageElement) {
+        if (!imageIO.hasAttribute("state"))
+            imageIO.setAttribute("state", "false");
+
+        const attributeIO: boolean = (imageIO.getAttribute("state") == "true");
+
+        if (stateIO && !attributeIO) {
+            imageIO.src = flashOn;
+            imageIO.setAttribute("state", "true")
+        } else if (!stateIO && attributeIO) {
+            imageIO.src = flashOff;
+            imageIO.setAttribute("state", "false");
+        }
     }
 }
 

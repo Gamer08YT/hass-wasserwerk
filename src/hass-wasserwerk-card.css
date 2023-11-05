@@ -1,0 +1,49 @@
+
+.wasserwerk-container {
+    position: relative;
+    height: 20rem;
+    padding-bottom: 5%;
+}
+
+.pump-icon {
+    position: relative;
+    height: 1.6rem;
+}
+
+.drop {
+    position: absolute;
+    height: 1rem;
+    visibility: hidden;
+    width: 1rem;
+}
+
+.pump-card {
+    color: aliceblue;
+    position: absolute;
+    background-color: black;
+    border-radius: 0.85rem;
+    padding: 1rem;
+    bottom: 15%;
+    width: 10rem;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+.pump-card > .card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card-text > h3 {
+    margin: 0;
+}
+
+.card-text > h3, span {
+    text-overflow: clip;
+}

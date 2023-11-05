@@ -22,6 +22,10 @@ module.exports = {
                 },
             },
             {
+                test: /\.css$/,
+                use: ['raw-loader']
+            },
+            {
                 test: /\.html$/,
                 use: {
                     loader: 'html-loader',
@@ -33,16 +37,7 @@ module.exports = {
             },
             {parser: {amd: false}},
             {
-                test: /\.css$/,
-                use: [{
-                    loader: 'css-loader',
-                    options: {
-                        esModule: false
-                    }
-                }]
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif|svg)$/,
+                test: /\.(jpg|jpeg|png|gif|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
