@@ -1,6 +1,6 @@
 {
   "name": "Water Level",
-  "filename": "hass-wasserwerk-card.js",
+  "filename": "hass-wasserwerk.ts.js",
   "homeassistant": "2021.11.0",
   "render_readme": true
 }

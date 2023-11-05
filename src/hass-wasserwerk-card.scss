@@ -1,7 +1,11 @@
 
 .wasserwerk-container {
     position: relative;
-    min-height: 20rem;
+    height: 20rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("images/map.png");
+    background-size: cover;
 }
 
 .pump-icon {

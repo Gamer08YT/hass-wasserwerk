@@ -7,10 +7,28 @@
     "email": "jan.heil@byte-store.de",
     "url": "https://www.byte-store.de"
   },
-  "devDependencies": {
-    "typescript": "^5.0.4"
-  },
+  "main": "./dist/hass-wasserwerk-card.js",
   "dependencies": {
-    "custom-card-helpers": "^1.9.0"
+    "custom-card-helpers": "^1.9.0",
+    "lit": "^2.7.4"
+  },
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "enhanced-resolve": "^5.14.1",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.3",
+    "typescript": "^5.0.4",
+    "webpack": "^5.84.1",
+    "webpack-cli": "^5.1.1",
+    "html-loader": "^4.2.0",
+    "raw-loader": "^4.0.2",
+    "babel-loader": "^9.1.2",
+    "url-loader": "^4.1.1",
+    "base64-inline-loader": "^2.0.1",
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4"
+  },
+  "scripts": {
+    "watch": "webpack --progress --watch"
   }
 }
