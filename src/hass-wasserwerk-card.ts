@@ -172,7 +172,7 @@ class HassWasserwerkCard extends HTMLElement {
             const integerIO = Number(valueIO);
 
             // If Wattage Usage is bigger than 10Watts.
-            if (integerIO > 10) {
+            if (integerIO > /*10*/ 0) {
                 this.droppingIO = true;
             } else {
                 this.droppingIO = false;
